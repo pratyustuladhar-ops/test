@@ -11,7 +11,6 @@
 
 <div class="d-flex">
 
-    @include('common.sidebar')
 
     <div class="container-fluid p-4">
         @yield('content')

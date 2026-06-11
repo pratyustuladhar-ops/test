@@ -13,25 +13,31 @@
             </div>
 
             <div class="card-body">
-                <form>
+
+                <form method="POST" action="/login">
+
+                    @csrf
+
                     <div class="mb-3">
                         <label>Email</label>
-                        <input type="email" class="form-control">
+                        <input type="email" name="email" class="form-control">
                     </div>
 
                     <div class="mb-3">
                         <label>Password</label>
-                        <input type="password" class="form-control">
+                        <input type="password" name="password" class="form-control">
                     </div>
 
-                    <a href="/dashboard" class="btn btn-primary w-100">
+                    <button type="submit" class="btn btn-primary w-100">
                         Login
-                    </a>
+                    </button>
+
                 </form>
 
                 <div class="text-center mt-3">
                     <a href="/register">Create Account</a>
                 </div>
+
             </div>
         </div>
 

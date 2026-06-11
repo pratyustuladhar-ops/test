@@ -4,42 +4,12 @@
 
     <ul class="nav flex-column">
 
-        <li class="nav-item">
-            <a class="nav-link text-white" href="/dashboard">Dashboard</a>
-        </li>
 
-        <li class="nav-item">
-            <a class="nav-link text-white" href="#">Suppliers</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link text-white" href="#">Products</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link text-white" href="#">Customers</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link text-white" href="#">Users</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link text-white" href="#">Purchases</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link text-white" href="#">Purchase Items</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link text-white" href="#">Sales</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link text-white" href="#">Sale Items</a>
-        </li>
-
+        @foreach ($menus as $menu)
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/{{ $menu->slug }}">{{ $menu->name }}</a>
+            </li>
+        @endforeach
     </ul>
 
 </div>

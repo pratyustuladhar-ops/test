@@ -72,4 +72,8 @@ class AuthController extends Controller
 
         return "Menu inserted successfully";
     }
+    public function login()
+{
+    return redirect('/dashboard');
+}
 }

@@ -4,6 +4,8 @@
 
 @section('content')
 
+@include('common.sidebar')
+
 <h2 class="mb-4">Welcome to the POS Dashboard</h2>
 
 <div class="row">
@@ -36,10 +38,5 @@
     </div>
 
 </div>
-<ul>
-@foreach($menus as $menu)
-    <li>{{ $menu->name }}</li>
-@endforeach
-</ul>
 
 @endsection
