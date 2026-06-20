@@ -11,4 +11,9 @@ Route::get('/dashboard', [AuthController::class, 'showDashboard']);
 
 Route::get('/register', [AuthController::class, 'showRegister']);
 
-Route::get('/insert-menu', [AuthController::class, 'insertMenu']);
+
+Route::get('/logout', [AuthController::class, 'logout']);
+
+use App\Http\Controllers\ProductController;
+
+Route::resource('products', ProductController::class);

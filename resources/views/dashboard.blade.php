@@ -5,10 +5,12 @@
 @section('content')
 
 @include('common.sidebar')
+<div class="row">
+    <a href="/logout" class="btn btn-danger">
+    Logout
+</a>
 
 <h2 class="mb-4">Welcome to the POS Dashboard</h2>
-
-<div class="row">
 
     <div class="col-md-4">
         <div class="card text-center shadow">
