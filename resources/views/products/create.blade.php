@@ -1,36 +1,24 @@
-@extends('layout.app')
+<form method="POST" action="{{ route('products.store') }}">
 
-@section('title', 'Add Product')
+    @csrf
 
-@section('content')
+    <div class="mb-3">
+        <label>Product Name</label>
+        <input type="text" name="name" class="form-control">
+    </div>
 
-<div class="container">
+    <div class="mb-3">
+        <label>Price</label>
+        <input type="number" name="price" class="form-control">
+    </div>
 
-    <h2>Add Product</h2>
+    <div class="mb-3">
+        <label>Quantity</label>
+        <input type="number" name="quantity" class="form-control">
+    </div>
 
-    <form>
+    <button type="submit" class="btn btn-success">
+        Save Product
+    </button>
 
-        <div class="mb-3">
-            <label>Product Name</label>
-            <input type="text" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label>Price</label>
-            <input type="number" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label>Quantity</label>
-            <input type="number" class="form-control">
-        </div>
-
-        <button class="btn btn-success">
-            Save Product
-        </button>
-
-    </form>
-
-</div>
-
-@endsection
+</form>

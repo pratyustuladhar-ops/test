@@ -75,6 +75,7 @@ class AuthController extends Controller
     public function login()
 {
     return redirect('/dashboard');
+    dd("text");
 }
 public function logout()
 {
