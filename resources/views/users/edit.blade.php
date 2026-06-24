@@ -1,37 +1,80 @@
 @extends('layout.app')
 
-@section('title', 'Edit Product')
+@section('title', 'Edit User')
 
 @section('content')
 
 <div class="container">
 
-```
-<h2>Edit Product</h2>
+    <h2>Edit User</h2>
 
-<form>
+    <form method="POST" action="{{ route('users.update', $user->id) }}">
+        @csrf
+        @method('PUT')
 
-    <div class="mb-3">
-        <label>Product Name</label>
-        <input type="text" class="form-control" value="{{ $product->name }}">
-    </div>
+        {{-- Name Field --}}
+        <div class="mb-3">
+            <label>Name</label>
+            <input type="text"
+                   name="name"
+                   class="form-control @error('name') is-invalid @enderror"
+                   value="{{ old('name', $user->name) }}"
+                   required>
 
-    <div class="mb-3">
-        <label>Price</label>
-        <input type="number" class="form-control" value="{{ $product->price }}">
-    </div>
+            @error('name')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
 
-    <div class="mb-3">
-        <label>Quantity</label>
-        <input type="number" class="form-control" value="{{ $product->quantity }}">
-    </div>
+        {{-- Email Field --}}
+        <div class="mb-3">
+            <label>Email</label>
+            <input type="email"
+                   name="email"
+                   class="form-control @error('email') is-invalid @enderror"
+                   value="{{ old('email', $user->email) }}"
+                   required>
 
-    <button class="btn btn-primary">
-        Update Product
-    </button>
+            @error('email')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
 
-</form>
-```
+        {{-- Password Field (Optional) --}}
+        <div class="mb-3">
+            <label>Password <small class="text-muted">(Leave blank to keep current password)</small></label>
+            <input type="password"
+                   name="password"
+                   class="form-control @error('password') is-invalid @enderror">
+
+            @error('password')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        {{-- Role Dropdown --}}
+        <div class="mb-3">
+            <label>Role</label>
+            <select name="role" class="form-select @error('role') is-invalid @enderror" required>
+                <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
+                <option value="supplier" {{ old('role', $user->role) == 'supplier' ? 'selected' : '' }}>Supplier</option>
+                <option value="user" {{ old('role', $user->role) == 'user' ? 'selected' : '' }}>User</option>
+            </select>
+
+            @error('role')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Update User
+        </button>
+
+        <a href="{{ route('users.index') }}" class="btn btn-secondary">
+            Cancel
+        </a>
+
+    </form>
 
 </div>
 

@@ -21,13 +21,19 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'quantity' => 'required|integer|min:0',
+        ]);
+
         Product::create([
             'name' => $request->name,
             'price' => $request->price,
             'quantity' => $request->quantity,
         ]);
 
-        return redirect('/products');
+        return redirect('/products')->with('success', 'Product created successfully.');
     }
 
     public function show(Product $product)
@@ -40,21 +46,27 @@ class ProductController extends Controller
         return view('products.edit', compact('product'));
     }
 
-   public function update(Request $request, Product $product)
-{
-    $product->update([
-        'name' => $request->name,
-        'price' => $request->price,
-        'quantity' => $request->quantity,
-    ]);
+    public function update(Request $request, Product $product)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'quantity' => 'required|integer|min:0',
+        ]);
 
-    return redirect('/products');
-}
+        $product->update([
+            'name' => $request->name,
+            'price' => $request->price,
+            'quantity' => $request->quantity,
+        ]);
 
-   public function destroy(Product $product)
-{
-    $product->delete();
+        return redirect('/products')->with('success', 'Product updated successfully.');
+    }
 
-    return redirect('/products');
-}
+    public function destroy(Product $product)
+    {
+        $product->delete();
+
+        return redirect('/products')->with('success', 'Product deleted successfully.');
+    }
 }
