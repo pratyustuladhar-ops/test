@@ -121,6 +121,7 @@ class AuthController extends Controller
         $usersThisWeek  = User::where('created_at', '>=', Carbon::now()->startOfWeek())->count();
         $usersThisMonth = User::where('created_at', '>=', Carbon::now()->startOfMonth())->count();
 
+    
         // Pass all data to the dashboard view
         return view('dashboard', compact(
             'totalProducts',
