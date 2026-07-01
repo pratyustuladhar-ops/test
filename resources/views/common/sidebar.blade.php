@@ -32,9 +32,9 @@
                 👤 Roles
             </a>
 
-            <a href="#"
-               class="btn btn-outline-light w-100 text-start mb-2">
-                📋 Modules
+            <a href="{{ route('menus.index') }}"
+                    class="btn btn-outline-light w-100 text-start mb-2">
+                    📋 Modules
             </a>
 
             <a href="/users"

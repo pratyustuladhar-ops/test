@@ -2,64 +2,71 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Permission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\Role;
+use App\Models\Menu;
 
 class PermissionController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display the Permission Management page.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $roles = Role::all();
+        $menus = Menu::all();
+
+        $selectedRole = $request->role_id;
+
+        $assignedMenus = [];
+
+        if ($selectedRole) {
+
+            $assignedMenus = DB::table('role_menu')
+                ->where('role_id', $selectedRole)
+                ->pluck('menu_id')
+                ->toArray();
+        }
+
+        return view('permissions.index', compact(
+            'roles',
+            'menus',
+            'selectedRole',
+            'assignedMenus'
+        ));
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Save permissions (Role ↔ Module).
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'role_id' => 'required|exists:roles,id'
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Permission $permission)
-    {
-        //
-    }
+        DB::table('role_menu')
+            ->where('role_id', $request->role_id)
+            ->delete();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Permission $permission)
-    {
-        //
-    }
+        if ($request->has('menus')) {
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Permission $permission)
-    {
-        //
-    }
+            foreach ($request->menus as $menuId) {
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Permission $permission)
-    {
-        //
+                DB::table('role_menu')->insert([
+                    'role_id' => $request->role_id,
+                    'menu_id' => $menuId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+            }
+
+        }
+
+        return redirect()
+            ->route('permissions.index', ['role_id' => $request->role_id])
+            ->with('success', 'Permissions updated successfully.');
     }
 }

@@ -9,4 +9,12 @@ class Role extends Model
     protected $fillable = [
         'name'
     ];
+
+    /**
+     * Menus assigned to this role
+     */
+    public function menus()
+    {
+        return $this->belongsToMany(Menu::class, 'role_menu');
+    }
 }

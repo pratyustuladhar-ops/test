@@ -1,32 +1,34 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\PermissionController;
 
 /*
 |--------------------------------------------------------------------------
-| GUEST ROUTES (Only accessible when NOT logged in)
+| GUEST ROUTES
 |--------------------------------------------------------------------------
 */
 
 Route::middleware('guest')->group(function () {
 
-    // Login
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
 
-    // Register
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
+
 });
 
 /*
 |--------------------------------------------------------------------------
-| Default Route
+| DEFAULT ROUTE
 |--------------------------------------------------------------------------
 */
 
@@ -42,10 +44,14 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
 
-    // Dashboard
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard
+    |--------------------------------------------------------------------------
+    */
+
     Route::get('/dashboard', [AuthController::class, 'showDashboard'])->name('dashboard');
 
-    // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     /*
@@ -56,14 +62,36 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:admin')->group(function () {
 
-        // Role Management
+        /*
+        |--------------------------------------------------------------------------
+        | Setup
+        |--------------------------------------------------------------------------
+        */
+
+        // Roles
         Route::resource('roles', RoleController::class);
 
-        // Product Management
-        Route::resource('products', ProductController::class);
+        // Modules
+        Route::resource('menus', MenuController::class);
 
-        // User Management
+        // Permissions
+        Route::get('/permissions', [PermissionController::class, 'index'])
+            ->name('permissions.index');
+
+        Route::post('/permissions', [PermissionController::class, 'store'])
+            ->name('permissions.store');
+
+        // Users
         Route::resource('users', UserController::class);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Inventory
+        |--------------------------------------------------------------------------
+        */
+
+        // Products
+        Route::resource('products', ProductController::class);
 
     });
 
@@ -75,7 +103,6 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:admin,supplier')->group(function () {
 
-        // Supplier Management
         Route::resource('suppliers', SupplierController::class);
 
     });
