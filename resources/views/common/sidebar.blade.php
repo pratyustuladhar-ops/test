@@ -1,53 +1,87 @@
-{{--
-    SIDEBAR - Role-Aware Navigation Menu
+<div class="bg-dark text-white shadow" style="min-height:100vh; width:260px;">
 
-    This sidebar uses static menu items instead of loading from the menus table.
-    The menu items shown depend on the logged-in user's role:
-    - admin:    sees Dashboard, Products, Suppliers, Users
-    - supplier: sees Dashboard, Suppliers
-    - user:     sees Dashboard only
---}}
+    <!-- Logo -->
+    <div class="text-center py-4 border-bottom border-secondary">
+        <h3 class="fw-bold text-white mb-0">
+            POS System
+        </h3>
+        <small class="text-secondary">
+            Administration Panel
+        </small>
+    </div>
 
-<div class="bg-dark text-white p-3" style="min-height: 100vh; width: 250px;">
+    <div class="p-3">
 
-    <h4 class="text-center mb-4">POS Menu</h4>
+        <!-- Dashboard -->
+        <a href="/dashboard"
+           class="btn btn-dark w-100 text-start mb-2">
+            🏠 Dashboard
+        </a>
 
-    <ul class="nav flex-column">
+        @if(Auth::user()->role == 'admin')
 
-        {{-- Dashboard - visible to ALL roles --}}
-        <li class="nav-item">
-            <a class="nav-link text-white" href="/dashboard">
-                🏠 Dashboard
+        <!-- Setup -->
+        <div class="mt-4">
+
+            <h6 class="text-uppercase text-secondary fw-bold">
+                Setup
+            </h6>
+
+            <a href="/roles"
+               class="btn btn-outline-light w-100 text-start mb-2">
+                👤 Roles
             </a>
-        </li>
 
-        {{-- Products - visible to ADMIN only --}}
-        @if(Auth::user()->role === 'admin')
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/products">
-                    📦 Products
-                </a>
-            </li>
+            <a href="#"
+               class="btn btn-outline-light w-100 text-start mb-2">
+                📋 Modules
+            </a>
+
+            <a href="/users"
+               class="btn btn-outline-light w-100 text-start mb-2">
+                👥 Users
+            </a>
+
+        </div>
+
+        <!-- Inventory -->
+        <div class="mt-4">
+
+            <h6 class="text-uppercase text-secondary fw-bold">
+                Inventory
+            </h6>
+
+            <a href="/products"
+               class="btn btn-outline-light w-100 text-start mb-2">
+                📦 Products
+            </a>
+
+            <a href="/suppliers"
+               class="btn btn-outline-light w-100 text-start mb-2">
+                🚚 Suppliers
+            </a>
+
+        </div>
+
         @endif
 
-        {{-- Suppliers - visible to ADMIN and SUPPLIER --}}
-        @if(in_array(Auth::user()->role, ['admin', 'supplier']))
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/suppliers">
-                    🚚 Suppliers
-                </a>
-            </li>
+        @if(Auth::user()->role == 'supplier')
+
+        <div class="mt-4">
+
+            <h6 class="text-uppercase text-secondary fw-bold">
+                Supplier
+            </h6>
+
+            <a href="/suppliers"
+               class="btn btn-outline-light w-100 text-start mb-2">
+                🚚 Suppliers
+            </a>
+
+        </div>
+
         @endif
 
-        {{-- Users - visible to ADMIN only --}}
-        @if(Auth::user()->role === 'admin')
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/users">
-                    👥 Users
-                </a>
-            </li>
-        @endif
-
-    </ul>
+    </div>
 
 </div>

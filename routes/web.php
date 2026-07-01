@@ -5,64 +5,79 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
-| GUEST ROUTES (only accessible when NOT logged in)
+| GUEST ROUTES (Only accessible when NOT logged in)
 |--------------------------------------------------------------------------
-| These routes are for visitors who haven't logged in yet.
-| If a logged-in user tries to access /login or /register,
-| they will be redirected to the dashboard.
 */
 
 Route::middleware('guest')->group(function () {
+
+    // Login
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
 
+    // Register
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
 });
 
-// Redirect root URL to login page
+/*
+|--------------------------------------------------------------------------
+| Default Route
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/', function () {
     return redirect('/login');
 });
 
 /*
 |--------------------------------------------------------------------------
-| AUTHENTICATED ROUTES (require login)
+| AUTHENTICATED ROUTES
 |--------------------------------------------------------------------------
-| These routes are protected by the 'auth' middleware.
-| If a guest tries to access these, they will be redirected to /login.
 */
 
 Route::middleware('auth')->group(function () {
 
-    // Dashboard - accessible by ALL logged-in users (admin, supplier, user)
+    // Dashboard
     Route::get('/dashboard', [AuthController::class, 'showDashboard'])->name('dashboard');
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     /*
-    |----------------------------------------------------------------------
-    | ADMIN-ONLY ROUTES
-    |----------------------------------------------------------------------
-    | Only users with role 'admin' can access these pages.
-    | Products, Users management
+    |--------------------------------------------------------------------------
+    | ADMIN ONLY
+    |--------------------------------------------------------------------------
     */
+
     Route::middleware('role:admin')->group(function () {
+
+        // Role Management
+        Route::resource('roles', RoleController::class);
+
+        // Product Management
         Route::resource('products', ProductController::class);
+
+        // User Management
         Route::resource('users', UserController::class);
+
     });
 
     /*
-    |----------------------------------------------------------------------
-    | ADMIN + SUPPLIER ROUTES
-    |----------------------------------------------------------------------
-    | Users with role 'admin' OR 'supplier' can access these pages.
+    |--------------------------------------------------------------------------
+    | ADMIN + SUPPLIER
+    |--------------------------------------------------------------------------
     */
+
     Route::middleware('role:admin,supplier')->group(function () {
+
+        // Supplier Management
         Route::resource('suppliers', SupplierController::class);
+
     });
+
 });
