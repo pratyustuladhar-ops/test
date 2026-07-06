@@ -9,6 +9,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +94,14 @@ Route::middleware('auth')->group(function () {
         // Products
         Route::resource('products', ProductController::class);
 
+        // POS
+        Route::get('/pos', [PosController::class, 'index'])
+            ->name('pos.index');
+
+        // Add Product to Cart
+        Route::post('/pos/add/{product}', [PosController::class, 'addToCart'])
+            ->name('pos.add');
+
     });
 
     /*
@@ -103,6 +112,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:admin,supplier')->group(function () {
 
+        // Suppliers
         Route::resource('suppliers', SupplierController::class);
 
     });

@@ -33,8 +33,13 @@
             </a>
 
             <a href="{{ route('menus.index') }}"
-                    class="btn btn-outline-light w-100 text-start mb-2">
-                    📋 Modules
+               class="btn btn-outline-light w-100 text-start mb-2">
+                📋 Modules
+            </a>
+
+            <a href="/permissions"
+               class="btn btn-outline-light w-100 text-start mb-2">
+                🔐 Permissions
             </a>
 
             <a href="/users"
@@ -61,6 +66,11 @@
                 🚚 Suppliers
             </a>
 
+            <a href="{{ route('pos.index') }}"
+               class="btn btn-outline-light w-100 text-start mb-2">
+                🛒 Point of Sale
+            </a>
+
         </div>
 
         @endif
@@ -76,6 +86,11 @@
             <a href="/suppliers"
                class="btn btn-outline-light w-100 text-start mb-2">
                 🚚 Suppliers
+            </a>
+
+            <a href="{{ route('pos.index') }}"
+               class="btn btn-outline-light w-100 text-start mb-2">
+                🛒 Point of Sale
             </a>
 
         </div>
