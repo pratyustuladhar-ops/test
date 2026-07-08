@@ -95,12 +95,12 @@ Route::middleware('auth')->group(function () {
         Route::resource('products', ProductController::class);
 
         // POS
-        Route::get('/pos', [PosController::class, 'index'])
-            ->name('pos.index');
 
         // Add Product to Cart
-        Route::post('/pos/add/{product}', [PosController::class, 'addToCart'])
-            ->name('pos.add');
+        Route::get('/pos', [PosController::class, 'index'])->name('pos.index');
+Route::post('/pos/add/{product}', [PosController::class, 'addToCart'])->name('pos.add');
+Route::patch('/pos/update/{id}', [PosController::class, 'updateQuantity'])->name('pos.update');
+Route::delete('/pos/remove/{id}', [PosController::class, 'removeFromCart'])->name('pos.remove');
 
     });
 
